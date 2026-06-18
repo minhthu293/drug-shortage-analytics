@@ -30,3 +30,12 @@ USING CASE
     WHEN discontinued_date = '' THEN NULL
     ELSE TO_DATE(discontinued_date, 'MM/DD/YYYY') 
 END;
+
+
+-- Bước 5: Chuẩn hóa cột status từ TEXT sang ENUM (Kiểu dữ liệu tự định nghĩa)
+-- (Dữ liệu gốc có 3 trạng thái sạch: Current, To Be Discontinued, Resolved)
+CREATE TYPE drug_status_enum AS ENUM ('Current', 'To Be Discontinued', 'Resolved');
+
+ALTER TABLE drug_shortages_clean
+ALTER COLUMN status TYPE drug_status_enum
+USING status::drug_status_enum;
