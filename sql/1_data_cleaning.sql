@@ -32,10 +32,26 @@ USING CASE
 END;
 
 
--- Bước 5: Chuẩn hóa cột status từ TEXT sang ENUM (Kiểu dữ liệu tự định nghĩa)
+-- Bước 5: Chuẩn hóa cột status từ TEXT sang ENUM
 -- (Dữ liệu gốc có 3 trạng thái sạch: Current, To Be Discontinued, Resolved)
 CREATE TYPE drug_status_enum AS ENUM ('Current', 'To Be Discontinued', 'Resolved');
 
 ALTER TABLE drug_shortages_clean
 ALTER COLUMN status TYPE drug_status_enum
 USING status::drug_status_enum;
+
+
+-- Bước 6: Làm sạch và chuẩn hóa cột availability từ TEXT sang ENUM
+-- 6.1 Sửa lỗi chính tả do nhập liệu thủ công (Data Update)
+UPDATE drug_shortages_clean SET availability = 'Available' WHERE availability = 'Avaliable';
+UPDATE drug_shortages_clean SET availability = 'Unavailable' WHERE availability = 'Unavailabld';
+
+-- 6.2 Chuyển các chuỗi rỗng thành NULL hệ thống
+UPDATE drug_shortages_clean SET availability = NULL WHERE availability = '';
+
+-- 6.3 Khởi tạo ENUM và ép kiểu cấu trúc cột (Alter Structure)
+CREATE TYPE drug_availability_enum AS ENUM ('Available', 'Unavailable', 'Limited Availability');
+
+ALTER TABLE drug_shortages_clean
+ALTER COLUMN availability TYPE drug_availability_enum
+USING availability::drug_availability_enum;
