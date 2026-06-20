@@ -4,7 +4,7 @@
 -- PURPOSE:
 -- Generate business insights from the cleaned drug shortage dataset.
 -- Focus on identifying key manufacturers, shortage causes,
--- and shortage trends over time.
+-- dosage form vulnerabilities, and shortage trends over time.
 -- ====================================================================
 
 ---
@@ -59,8 +59,6 @@ FROM top_5_sum;
 
 ---
 
----
-
 -- 3. Distribution of Drug Shortage Reasons
 -- Business Question:
 -- What are the most common causes of drug shortages?
@@ -83,7 +81,23 @@ ORDER BY shortage_count DESC;
 
 ---
 
--- 4. Drug Shortage Trend by Year
+-- 4. Dosage Form Impact Analysis
+-- Business Question:
+-- Which dosage forms are most affected by drug shortages?
+
+---
+
+SELECT
+dosage_form,
+COUNT(*) AS shortage_count
+FROM drug_shortages_clean
+WHERE dosage_form IS NOT NULL
+GROUP BY dosage_form
+ORDER BY shortage_count DESC;
+
+---
+
+-- 5. Drug Shortage Trend by Year
 -- Business Question:
 -- How has the number of drug shortages changed over time?
 
@@ -98,7 +112,7 @@ ORDER BY shortage_year ASC;
 
 ---
 
--- 5. Company Analysis During Peak Shortage Years
+-- 6. Company Analysis During Peak Shortage Years
 -- Business Question:
 -- Which manufacturers contributed most to shortages
 -- during major shortage years?
