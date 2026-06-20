@@ -36,3 +36,24 @@ WHERE shortage_reason IS NOT NULL
   AND shortage_reason <> 'Other'
 GROUP BY shortage_reason
 ORDER BY C DESC;
+
+-- 4. Phân tích các dạng bào chế bị ảnh hưởng nghiêm trọng nhất (Dosage Form Analytics)
+-- Loại bỏ dữ liệu khuyết thiếu sau khi đã đồng bộ sạch ở đầu nguồn
+SELECT 
+    dosage_form, 
+    COUNT(*) AS C
+FROM drug_shortages_clean
+WHERE dosage_form IS NOT NULL 
+  AND dosage_form <> 'Other'
+GROUP BY dosage_form
+ORDER BY C DESC;
+
+-- 5. Phân tích xu hướng dòng chảy khan hiếm thuốc theo từng Tháng-Năm (Trend Analytics)
+-- Sắp xếp theo trục thời gian tuyến tính để phục vụ vẽ biểu đồ đường (Line Chart)
+SELECT 
+    TO_CHAR(initial_posting_date, 'YYYY-MM') AS M, 
+    COUNT(*) AS C
+FROM drug_shortages_clean
+WHERE initial_posting_date IS NOT NULL
+GROUP BY M
+ORDER BY M ASC;
