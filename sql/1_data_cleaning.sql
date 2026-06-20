@@ -64,6 +64,13 @@ SET shortage_reason = NULL
 WHERE shortage_reason = '';
 
 
+-- Bước 8: Xử lý cột therapeutic_category bị lỗi trích xuất từ nguồn
+-- (Chuyển đổi chuỗi vô nghĩa '[List]' thành NULL hệ thống để bảo toàn tính chuẩn hóa)
+UPDATE drug_shortages_clean
+SET therapeutic_category = NULL
+WHERE therapeutic_category = '[List]';
+
+
 -- ====================================================================
 -- PROJECT: DRUG SHORTAGE ANALYTICS
 -- TASK: EXPLORATION & INSIGHT ANALYSIS (KHAI PHÁ DỮ LIỆU)
