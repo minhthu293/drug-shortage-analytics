@@ -55,3 +55,47 @@ CREATE TYPE drug_availability_enum AS ENUM ('Available', 'Unavailable', 'Limited
 ALTER TABLE drug_shortages_clean
 ALTER COLUMN availability TYPE drug_availability_enum
 USING availability::drug_availability_enum;
+
+
+-- Bước 7: Làm sạch cột shortage_reason
+-- (Chuyển các chuỗi rỗng thành NULL hệ thống để chuẩn hóa dữ liệu)
+UPDATE drug_shortages_clean
+SET shortage_reason = NULL
+WHERE shortage_reason = '';
+
+
+-- ====================================================================
+-- PROJECT: DRUG SHORTAGE ANALYTICS
+-- TASK: EXPLORATION & INSIGHT ANALYSIS (KHAI PHÁ DỮ LIỆU)
+-- ====================================================================
+
+-- 1. Tìm Top các công ty có số lượng ca khan hiếm lớn nhất hệ thống
+SELECT company_name, count(*) AS total_cases
+FROM drug_shortages_clean
+GROUP BY company_name
+ORDER BY total_cases DESC;
+
+
+-- 2. Kiểm tra lại phân phối nguyên nhân khan hiếm sau khi làm sạch
+SELECT shortage_reason, count(*) AS shortage_reason_count
+FROM drug_shortages_clean
+GROUP BY shortage_reason
+ORDER BY shortage_reason_count DESC;
+
+
+-- 3. Phân tích xu hướng: Tổng số ca khan hiếm thuốc biến động theo từng năm
+SELECT EXTRACT (YEAR FROM initial_posting_date) AS shortage_year, count(*) AS total_cases
+FROM drug_shortages_clean
+GROUP BY shortage_year
+ORDER BY shortage_year ASC;
+
+
+-- 4. Phân tích đa chiều: Các công ty chịu ảnh hưởng lớn nhất trong 2 năm khủng hoảng (2023, 2025)
+SELECT company_name, shortage_year, count(*) AS total_cases
+FROM (
+    SELECT company_name, EXTRACT(YEAR FROM initial_posting_date) AS shortage_year
+    FROM drug_shortages_clean
+) AS sub
+WHERE shortage_year IN (2023, 2025)
+GROUP BY company_name, shortage_year
+ORDER BY total_cases DESC;
