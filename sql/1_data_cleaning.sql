@@ -71,6 +71,13 @@ SET therapeutic_category = NULL
 WHERE therapeutic_category = '[List]';
 
 
+-- Bước 9: Làm sạch cột dosage_form
+-- (Chuyển các chuỗi rỗng thành NULL hệ thống để chuẩn hóa dữ liệu dạng bào chế)
+UPDATE drug_shortages_clean
+SET dosage_form = NULL
+WHERE dosage_form = '';
+
+
 -- ====================================================================
 -- PROJECT: DRUG SHORTAGE ANALYTICS
 -- TASK: EXPLORATION & INSIGHT ANALYSIS (KHAI PHÁ DỮ LIỆU)
