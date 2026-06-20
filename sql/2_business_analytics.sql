@@ -59,6 +59,8 @@ FROM top_5_sum;
 
 ---
 
+---
+
 -- 3. Distribution of Drug Shortage Reasons
 -- Business Question:
 -- What are the most common causes of drug shortages?
@@ -67,8 +69,15 @@ FROM top_5_sum;
 
 SELECT
 shortage_reason,
-COUNT(*) AS shortage_count
+COUNT(*) AS shortage_count,
+ROUND(
+(COUNT(*) * 100.0) /
+SUM(COUNT(*)) OVER (),
+2
+) AS percentage
 FROM drug_shortages_clean
+WHERE shortage_reason IS NOT NULL
+AND shortage_reason <> 'Other'
 GROUP BY shortage_reason
 ORDER BY shortage_count DESC;
 
