@@ -2,9 +2,15 @@
 
 ## Project Overview
 
-Drug shortages can significantly impact healthcare systems, patient outcomes, and pharmaceutical supply chains. This project analyzes drug shortage records to identify shortage trends, major manufacturers involved, root causes, vulnerable dosage forms, and shortage severity.
+Drug shortages can significantly impact healthcare systems, patient outcomes, and pharmaceutical supply chains. This project analyzes FDA drug shortage records to identify trends, major manufacturers involved, root causes, vulnerable dosage forms, and shortage severity.
 
-The analysis was performed using PostgreSQL for data cleaning and analytics, and Power BI for dashboard visualization.
+The analysis was conducted using PostgreSQL for data cleaning and analytics, and Power BI for dashboard visualization.
+
+---
+
+## Dashboard Preview
+
+![Dashboard Overview](images/dashboard_overview.png)
 
 ---
 
@@ -14,15 +20,14 @@ The analysis was performed using PostgreSQL for data cleaning and analytics, and
 
 **Total Records:** 1,682 drug shortage cases
 
-The dataset contains information about:
+The dataset includes:
 
 * Drug manufacturers
+* Generic drug names
 * Product information
-* Shortage status
 * Shortage reasons
 * Availability status
 * Posting and update dates
-* Therapeutic categories
 * Dosage forms
 
 ---
@@ -32,39 +37,32 @@ The dataset contains information about:
 This project aims to answer the following questions:
 
 1. How have drug shortages changed over time?
-2. Which manufacturers are most affected by drug shortages?
+2. Which manufacturers are most affected by shortages?
 3. What are the leading causes of drug shortages?
 4. Which dosage forms face the highest shortage risk?
 5. How severe are shortages in terms of duration?
 
 ---
 
-## Data Cleaning
+## SQL Workflow
 
-Data cleaning was performed in PostgreSQL.
+### 1. Data Cleaning
 
-Main cleaning tasks included:
+File: `sql/01_data_cleaning.sql`
 
-* Creating a dedicated working table
-* Converting date columns from text to DATE format
-* Handling missing values
-* Standardizing categorical values
-* Correcting data entry errors
-* Creating ENUM types for status and availability fields
+Main tasks:
 
-SQL script:
+* Converted date columns from text to DATE format
+* Standardized categorical values
+* Corrected data entry errors
+* Replaced missing values with NULL
+* Created ENUM types for status and availability fields
 
-```text
-sql/1_data_cleaning.sql
-```
+### 2. Business Analysis
 
----
+File: `sql/02_business_analysis.sql`
 
-## SQL Analysis
-
-The analysis was divided into two stages:
-
-### Business Analysis
+Analysis performed:
 
 * Manufacturer impact analysis
 * Manufacturer concentration analysis
@@ -73,24 +71,16 @@ The analysis was divided into two stages:
 * Yearly shortage trend analysis
 * Peak shortage year analysis
 
-SQL script:
+### 3. Advanced Analysis
 
-```text
-sql/2_business_analysis.sql
-```
+File: `sql/03_advanced_analysis.sql`
 
-### Advanced Analysis
+Analysis performed:
 
 * Longest shortage duration analysis
 * Average shortage duration by company
 * Monthly shortage trend analysis
-* Severity assessment
-
-SQL script:
-
-```text
-sql/3_advanced_analysis.sql
-```
+* Product-level shortage severity analysis
 
 ---
 
@@ -98,67 +88,80 @@ sql/3_advanced_analysis.sql
 
 ### 1. Drug Shortage Trend
 
-* 2023 recorded the highest number of shortage cases with **372 cases**.
-* 2025 followed with **339 cases**.
-* Drug shortages show significant volatility rather than a steady upward trend.
+* Total shortage cases: 1,682
+* Peak year: 2023 with 372 cases
+* Second highest year: 2025 with 339 cases
+* Drug shortages increased substantially after 2021
 
 ### 2. Manufacturer Impact
 
 Top manufacturers by shortage cases:
 
-1. Hospira, Inc., a Pfizer Company — 206 cases
-2. Fresenius Kabi USA, LLC — 172 cases
-3. Teva Pharmaceuticals USA, Inc. — 117 cases
-4. Hikma Pharmaceuticals USA, Inc. — 97 cases
-5. Pfizer Inc. — 91 cases
+| Manufacturer                    | Cases |
+| ------------------------------- | ----: |
+| Hospira, Inc., a Pfizer Company |   206 |
+| Fresenius Kabi USA, LLC         |   172 |
+| Teva Pharmaceuticals USA, Inc.  |   117 |
+| Hikma Pharmaceuticals USA, Inc. |    97 |
+| Pfizer Inc.                     |    91 |
 
-The top 5 manufacturers account for **40.61%** of all shortage cases, indicating a high concentration of supply risk.
+The top five manufacturers accounted for **40.61%** of all shortage cases.
 
 ### 3. Root Cause Analysis
 
-Top shortage causes:
+| Cause                            | Cases | Percentage |
+| -------------------------------- | ----: | ---------: |
+| Demand increase for the drug     |   106 |     36.43% |
+| Discontinuation of manufacturing |    68 |     23.37% |
+| Active ingredient shortage       |    67 |     23.02% |
+| GMP compliance requirements      |    22 |      7.56% |
+| Shipping delays                  |    21 |      7.22% |
 
-* Demand increase for the drug — 36.43%
-* Manufacturing discontinuation — 23.37%
-* Active ingredient shortage — 23.02%
+The top three causes accounted for **82.82%** of all identified shortage reasons.
 
-The top three causes account for **82.82%** of identified shortage reasons.
+### 4. Dosage Form Impact
 
-### 4. Dosage Form Analysis
+| Dosage Form | Cases |
+| ----------- | ----: |
+| Injection   |   975 |
+| Tablet      |   434 |
+| Capsule     |   146 |
 
-Most affected dosage forms:
-
-* Injection — 975 cases
-* Tablet — 434 cases
-* Capsule — 146 cases
-
-These three dosage forms account for **92.45%** of all shortage cases.
+The top three dosage forms represented **92.45%** of all shortage cases.
 
 ### 5. Shortage Severity
 
 * Longest shortage duration: **5,268 days**
 * Average shortage duration: **1,444 days**
-* SteriMax, Inc. recorded the highest average shortage duration (**4,090 days**)
+* Highest average shortage duration: **SteriMax Inc. (4,090 days)**
+
+The longest shortages were primarily associated with:
+
+* Fresenius Kabi USA, LLC
+* Accord Healthcare Inc.
+
+Products involved included:
+
+* Fentanyl Citrate Injection
+* Atropine Sulfate Injection
 
 ---
 
-## Dashboard Preview
+## Dashboard
 
-The Power BI dashboard provides an interactive overview of:
+The Power BI dashboard includes:
 
-* Drug shortage trends
-* Manufacturer impact
-* Root causes
-* Dosage form risk distribution
-* Shortage severity metrics
-
-![Dashboard Overview](images/dashboard_overview.png)
+* KPI summary cards
+* Yearly shortage trends
+* Top manufacturers
+* Root cause distribution
+* Dosage form analysis
+* Longest shortage cases
+* Average shortage duration by manufacturer
 
 Power BI file:
 
-```text
-dashboard/Drug_Shortage_Analysis_Dashboard.pbix
-```
+`dashboard/Drug_Shortage_Analysis_Dashboard.pbix`
 
 ---
 
@@ -166,20 +169,20 @@ dashboard/Drug_Shortage_Analysis_Dashboard.pbix
 
 Based on the analysis:
 
-1. Monitor manufacturers with high shortage frequency to reduce supply chain concentration risk.
-2. Improve forecasting for drugs experiencing rapid demand increases.
+1. Reduce dependency on a small group of manufacturers.
+2. Improve demand forecasting for high-risk medications.
 3. Strengthen active ingredient sourcing strategies.
-4. Prioritize risk management for injectable products due to their high shortage exposure.
-5. Establish early warning systems for long-duration shortages.
+4. Prioritize risk monitoring for injectable products.
+5. Develop early warning systems for long-duration shortages.
 
 ---
 
 ## Tools Used
 
 * PostgreSQL
+* SQL
 * Power BI
 * GitHub
-* SQL
 
 ---
 
@@ -190,15 +193,15 @@ drug-shortage-analytics/
 
 ├── dashboard/
 │   └── Drug_Shortage_Analysis_Dashboard.pbix
-
+│
 ├── images/
 │   └── dashboard_overview.png
-
+│
 ├── sql/
-│   ├── 1_data_cleaning.sql
-│   ├── 2_business_analysis.sql
-│   ├── 3_advanced_analysis.sql
+│   ├── 01_data_cleaning.sql
+│   ├── 02_business_analysis.sql
+│   ├── 03_advanced_analysis.sql
 │   └── README.md
-
+│
 └── README.md
 ```
