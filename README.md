@@ -76,7 +76,7 @@ The analysis was divided into two stages:
 SQL script:
 
 ```text
-sql/2_business_analytics.sql
+sql/2_business_analysis.sql
 ```
 
 ### Advanced Analysis
@@ -196,7 +196,7 @@ drug-shortage-analytics/
 
 ├── sql/
 │   ├── 1_data_cleaning.sql
-│   ├── 2_business_analytics.sql
+│   ├── 2_business_analysis.sql
 │   ├── 3_advanced_analysis.sql
 │   └── README.md
 
