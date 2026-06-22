@@ -167,13 +167,37 @@ Power BI file:
 
 ## Business Recommendations
 
-Based on the analysis:
+Based on the findings from this analysis, the following actions could help mitigate future drug shortages:
 
-1. Reduce dependency on a small group of manufacturers.
-2. Improve demand forecasting for high-risk medications.
-3. Strengthen active ingredient sourcing strategies.
-4. Prioritize risk monitoring for injectable products.
-5. Develop early warning systems for long-duration shortages.
+### 1. Reduce Manufacturer Concentration Risk
+
+The top five manufacturers accounted for 40.61% of all shortage cases.
+
+Healthcare organizations and regulators should monitor these manufacturers closely and encourage supply diversification to reduce dependency on a small group of suppliers.
+
+### 2. Improve Demand Forecasting
+
+Demand increase was the leading cause of shortages, representing 36.43% of identified cases.
+
+Manufacturers should strengthen demand forecasting models and inventory planning for critical medications to better respond to sudden spikes in demand.
+
+### 3. Strengthen Active Ingredient Supply Chains
+
+Shortages of active pharmaceutical ingredients (APIs) accounted for 23.02% of all documented shortage causes.
+
+Companies should diversify API suppliers and establish contingency sourcing strategies to improve supply chain resilience.
+
+### 4. Prioritize Injectable Drug Production
+
+Injection products represented 975 shortage cases and accounted for more than half of all recorded shortages.
+
+Because injectable products require complex manufacturing processes and strict quality controls, additional investment in production capacity and risk monitoring may help reduce future disruptions.
+
+### 5. Establish Early Warning Systems
+
+The average shortage duration was 1,444 days, while some shortages lasted more than 5,000 days.
+
+Early warning systems and proactive risk monitoring could help identify potential supply disruptions before they develop into long-term shortages.
 
 ---
 
